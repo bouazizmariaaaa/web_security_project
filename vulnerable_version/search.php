@@ -13,7 +13,7 @@ include('includes/config.php');
     <?php
     if(isset($_GET['q'])) {
         $q = $_GET['q'];
-        echo "<p>Résultats pour la recherche : " . $q . "</p>";
+        echo "<p>Résultats pour : " . $q . "</p>";
         $sql = "SELECT * FROM events WHERE title LIKE '%$q%' OR description LIKE '%$q%'";
         $res = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_assoc($res)) {
@@ -21,5 +21,6 @@ include('includes/config.php');
         }
     }
     ?>
+    <br><a href="index.php">Retour</a>
 </body>
 </html>
