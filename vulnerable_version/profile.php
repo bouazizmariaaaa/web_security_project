@@ -7,9 +7,9 @@ $user = mysqli_fetch_assoc($res);
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Profil</title></head>
+<head><title>Profil Utilisateur</title></head>
 <body>
-    <h2>Profil Utilisateur</h2>
+    <h2>Profil de l'utilisateur</h2>
     <?php if($user): ?>
         <p>ID : <?php echo $user['id']; ?></p>
         <p>Nom : <?php echo $user['username']; ?></p>
@@ -18,5 +18,6 @@ $user = mysqli_fetch_assoc($res);
     <?php else: ?>
         <p>Utilisateur introuvable.</p>
     <?php endif; ?>
+    <br><a href="index.php">Retour à l'accueil</a>
 </body>
 </html>
