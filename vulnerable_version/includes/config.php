@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
+$host = 'db';
 $db   = 'student_events_db';
 $user = 'root';
-$pass = '';
+$pass = 'rootpassword';
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 if (!$conn) {
