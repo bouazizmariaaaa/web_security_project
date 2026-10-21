@@ -1,30 +1,38 @@
 <?php
 include('includes/config.php');
-if(isset($_POST['username']) && isset($_POST['password'])) {
-    $u = $_POST['username'];
-    $p = $_POST['password'];
-    $sql = "SELECT * FROM users WHERE username = '$u' AND password = '$p'";
-    $res = mysqli_query($conn, $sql);
-    if(mysqli_num_rows($res) > 0) {
-        $user = mysqli_fetch_assoc($res);
-        $_SESSION['user'] = $user['username'];
-        $_SESSION['user_id'] = $user['id'];
-        header("Location: index.php");
-    } else {
-        $error = "Identifiants invalides";
-    }
-}
+include('includes/database.php');
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Connexion</title></head>
+<head><title>Accueil - Événements</title></head>
 <body>
-    <h2>Connexion</h2>
-    <?php if(isset($error)) echo "<p>$error</p>"; ?>
-    <form method="POST">
-        Nom d'utilisateur: <input type="text" name="username"><br>
-        Mot de passe: <input type="password" name="password"><br>
-        <input type="submit" value="Se connecter">
-    </form>
+    <h1>Bienvenue sur le portail étudiant</h1>
+    <nav>
+        <a href="index.php">Accueil</a> | 
+        <a href="search.php">Recherche</a> | 
+        <a href="profile.php?id=1">Mon Profil</a> | 
+        <a href="upload.php">Upload</a> 
+        <?php if(isset($_SESSION['user'])): ?>
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                | <a href="admin/index.php">Administration</a>
+            <?php endif; ?>
+            | <a href="logout.php">Déconnexion (<?php echo $_SESSION['user']; ?>)</a>
+        <?php else: ?>
+            | <a href="login.php">Connexion</a> | <a href="register.php">Inscription</a>
+        <?php endif; ?>
+    </nav>
+    <hr>
+    <h2>Événements à proximité</h2>
+    <?php
+    $sql = "SELECT * FROM events";
+    $res = db_query($conn, $sql);
+    while($row = mysqli_fetch_assoc($res)) {
+        echo "<div>";
+        echo "<h3>" . $row['title'] . "</h3>";
+        echo "<p>" . $row['description'] . "</p>";
+        echo "<small>Lieu : " . $row['location'] . " | Date : " . $row['date'] . "</small>";
+        echo "</div><hr>";
+    }
+    ?>
 </body>
 </html>
