@@ -1,14 +1,12 @@
 <?php
 $host = 'localhost';
-$db   = 'student_events';
+$db   = 'student_events_db';
 $user = 'root';
 $pass = '';
 
 $conn = mysqli_connect($host, $user, $pass, $db);
-
 if (!$conn) {
-    die("Connection failed");
+    die("Erreur de connexion");
 }
-
 session_start();
 ?>
