@@ -1,22 +1,26 @@
 <?php
 include('includes/config.php');
-$id = $_GET['id'];
-$sql = "SELECT * FROM users WHERE id = $id";
-$res = mysqli_query($conn, $sql);
-$user = mysqli_fetch_assoc($res);
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Profil</title></head>
+<head><title>Recherche</title></head>
 <body>
-    <h2>Profil Utilisateur</h2>
-    <?php if($user): ?>
-        <p>ID : <?php echo $user['id']; ?></p>
-        <p>Nom : <?php echo $user['username']; ?></p>
-        <p>Email : <?php echo $user['email']; ?></p>
-        <p>Rôle : <?php echo $user['role']; ?></p>
-    <?php else: ?>
-        <p>Utilisateur introuvable.</p>
-    <?php endif; ?>
+    <h2>Recherche d'événements</h2>
+    <form method="GET">
+        Rechercher: <input type="text" name="q">
+        <input type="submit" value="Chercher">
+    </form>
+    <?php
+    if(isset($_GET['q'])) {
+        $q = $_GET['q'];
+        echo "<p>Résultats pour : " . $q . "</p>";
+        $sql = "SELECT * FROM events WHERE title LIKE '%$q%' OR description LIKE '%$q%'";
+        $res = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($res)) {
+            echo "<div><strong>" . $row['title'] . "</strong> - " . $row['location'] . "</div>";
+        }
+    }
+    ?>
+    <br><a href="index.php">Retour</a>
 </body>
 </html>
