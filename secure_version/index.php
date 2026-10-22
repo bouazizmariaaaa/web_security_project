@@ -10,7 +10,7 @@ include('includes/functions.php');
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <h1>Bienvenue sur le portail étudiant (Version Sécurisée)</h1>
+    <h1>Bienvenue sur le portail étudiant </h1>
     <nav>
         <a href="index.php">Accueil</a> | 
         <a href="search.php">Recherche</a> | 
