@@ -4,7 +4,10 @@ include('includes/database.php');
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Accueil - Événements</title></head>
+<head>
+    <title>Accueil - Événements</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 <body>
     <h1>Bienvenue sur le portail étudiant</h1>
     <nav>
@@ -12,6 +15,7 @@ include('includes/database.php');
         <a href="search.php">Recherche</a> | 
         <a href="profile.php?id=1">Mon Profil</a> | 
         <a href="upload.php">Upload</a> 
+        
         <?php if(isset($_SESSION['user'])): ?>
             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                 | <a href="admin/index.php">Administration</a>
