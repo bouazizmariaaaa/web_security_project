@@ -1,38 +1,35 @@
 <?php
 include('includes/config.php');
 include('includes/database.php');
+
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = db_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        $_SESSION['user'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+        header("Location: index.php");
+        exit;
+    }
+    $error = "Identifiants incorrects";
+}
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>Accueil - Événements</title></head>
+<head><title>Connexion</title></head>
 <body>
-    <h1>Bienvenue sur le portail étudiant</h1>
-    <nav>
-        <a href="index.php">Accueil</a> | 
-        <a href="search.php">Recherche</a> | 
-        <a href="profile.php?id=1">Mon Profil</a> | 
-        <a href="upload.php">Upload</a> 
-        <?php if(isset($_SESSION['user'])): ?>
-            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                | <a href="admin/index.php">Administration</a>
-            <?php endif; ?>
-            | <a href="logout.php">Déconnexion (<?php echo $_SESSION['user']; ?>)</a>
-        <?php else: ?>
-            | <a href="login.php">Connexion</a> | <a href="register.php">Inscription</a>
-        <?php endif; ?>
-    </nav>
-    <hr>
-    <h2>Événements à proximité</h2>
-    <?php
-    $sql = "SELECT * FROM events";
-    $res = db_query($conn, $sql);
-    while($row = mysqli_fetch_assoc($res)) {
-        echo "<div>";
-        echo "<h3>" . $row['title'] . "</h3>";
-        echo "<p>" . $row['description'] . "</p>";
-        echo "<small>Lieu : " . $row['location'] . " | Date : " . $row['date'] . "</small>";
-        echo "</div><hr>";
-    }
-    ?>
+    <h2>Connexion</h2>
+    <?php if ($error): ?><p style="color:red"><?php echo $error; ?></p><?php endif; ?>
+    <form method="POST" action="login.php">
+        Nom d'utilisateur: <input type="text" name="username"><br>
+        Mot de passe: <input type="password" name="password"><br>
+        <input type="submit" value="Se connecter">
+    </form>
 </body>
 </html>
