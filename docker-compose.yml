@@ -5,7 +5,7 @@ services:
     ports:
       - "8090:80"
     volumes:
-      - ./secure_version:/var/www/html 
+      - ./secure_version:/var/www/html //- ./vulnerable_version:/var/www/html
     environment:
       - MYSQL_HOST=db
     depends_on:
